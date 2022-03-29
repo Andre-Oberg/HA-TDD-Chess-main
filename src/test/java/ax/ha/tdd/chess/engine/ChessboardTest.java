@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class ChessboardTest {
 
-    @Test
+    /*@Test
     public void Chessboard_fromBeginning_isEmpty() {
         final Chessboard chessboard = new Chessboard();
         for (int x = 0; x < 8; x++) {
@@ -93,26 +93,68 @@ public class ChessboardTest {
     @Test
     public void pawnCanMove1Forward() {
         Chessboard chessboard = new Chessboard();
-        //Pawn test = new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1));
+
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(1, 6)));
         chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
-        //System.out.println(chessboard.getPiece(new Coordinates(1, 1)).getSymbol());
-        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(1, 4))));
-    }
-    
-    /*@Test
-    public void pawnCanMove2Forward() {
-        final Chessboard chessboard = Chessboard.startingBoard();
-        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 1)).canMove(chessboard, (new Coordinates(0, 3))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 6)).canMove(chessboard, (new Coordinates(1, 5))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(1, 2))));
     }
     
     @Test
+    public void pawnCantMove1Backward() {
+        Chessboard chessboard = new Chessboard();
+
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(1, 6)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 6)).canMove(chessboard, (new Coordinates(1, 7))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(1, 0))));
+    }
+    
+    @Test
+    public void pawnCanMove2Forward() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(1, 6)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 6)).canMove(chessboard, (new Coordinates(1, 4))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(1, 3))));
+    }
+    
+    @Test
+    public void pawnCanMove1ForwardAndToSideWithoutCapture() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(1, 6)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 6)).canMove(chessboard, (new Coordinates(2, 4))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(0, 3))));
+    }*/
+    
+    @Test
+    public void pawnCanCapture() {
+        Chessboard chessboard = new Chessboard();
+        
+        // Check to see if same color piece can capture each other
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(2, 2)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(1, 1)));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(2, 2)).canMove(chessboard, (new Coordinates(1, 1))));
+        
+        // Check to see it moves to opposing color if you can capture both but the left one is of same type
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(6, 6)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(5, 5)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(7, 5)));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(6, 6)).canMove(chessboard, (new Coordinates(7, 5))));
+        
+    }
+    
+    /*@Test
     public void pawnCantMoveForward() {
         final Chessboard chessboard = Chessboard.startingBoard();
         chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 2)));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(0, 2))));
-    }
+    }*/
     
-    @Test
+    /*@Test
     public void pawnCanTakePiece() {
     
     }
@@ -121,7 +163,7 @@ public class ChessboardTest {
     public void pawnCanPromote() {
     
     }
-    */
+    
     // Tests for Rook
     
     // Tests for Knights
@@ -131,5 +173,5 @@ public class ChessboardTest {
     // Tests for Queen
     
     // Tests for King
-    
+    */
 }

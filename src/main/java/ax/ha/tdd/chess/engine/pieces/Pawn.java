@@ -59,36 +59,60 @@ public class Pawn extends ChessPiece {
             twoMove = 2;    
         }
         
-        System.out.println("Before move forward 1: "+(destination.getY()-this.getLocation().getY()));
+        int newY = destination.getY()+1;
+        int curY = this.getLocation().getY()+1;
+        
+        System.out.println("Dest Y: " + newY + " Current Y: " + curY);
+        int destY = (destination.getY()+1) - (this.getLocation().getY()+1);
+        
+        System.out.println("Before move forward 1: "+destY+" wanted: "+oneMove+" or "+twoMove);
         // Checks if pawn can move forward once   
-        if ((destination.getY()+1) - (this.getLocation().getY()+1) == 1) {
+        if (destY == oneMove) {
+            System.out.println("In One Move");
             if (destination.getX() == this.getLocation().getX() && chessboard.getPiece(destination) == null) {
                     return true;
             }
+            
+            if ((this.getLocation().getX()+1)-(destination.getX()+1) == 1) {
+                System.out.println("To Left");
+                if (chessboard.getPiece(destination).getPlayer() != this.getPlayer()) {
+                    System.out.println("Captured Left");
+                    return true;
+                }
+            } else if ((this.getLocation().getX()+1)-(destination.getX()+1) == -1) {
+                System.out.println("To Right");
+                if (chessboard.getPiece(destination).getPlayer() != this.getPlayer()) {
+                    System.out.println("Captured Right");
+                    return true;
+                }
+           }
         }
         
         System.out.println("Before move forward 2");
         // Checks if pawn can move forward twice
         if (hasMoved() != true) {
-            if ((destination.getY()+1) - (this.getLocation().getY()+1) == 2) {
+            if (destY == twoMove) {
+                System.out.println("In Two Move");
                 if (destination.getX() == this.getLocation().getX() && chessboard.getPiece(destination) == null) {
                     return true;
                 }
             }
         }
         
-        System.out.println("Before move forward 3");
+        /*System.out.println("Before move forward 3");
         // Checks if pawn can capture   
         Coordinates left = new Coordinates(this.getLocation().getX()-1, this.getLocation().getX()-oneMove);
         Coordinates right =  new Coordinates(this.getLocation().getX()+1, this.getLocation().getX()-oneMove);
         
         if (destination == left || destination == right) {
+            System.out.println("Before capture forward 3");
             if (chessboard.getPiece(destination) != null) {
+                System.out.println("Before capture forward 3");
                 if (chessboard.getPiece(destination).getPlayer() != this.player) {
                     return true;
                 }
             }
-        }
+        }*/
             
         return false;
     }
