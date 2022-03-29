@@ -92,11 +92,14 @@ public class ChessboardTest {
     
     @Test
     public void pawnCanMove1Forward() {
-        final Chessboard chessboard = Chessboard.startingBoard();
-        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 1)).canMove(chessboard, (new Coordinates(0, 2))));
+        Chessboard chessboard = new Chessboard();
+        //Pawn test = new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
+        //System.out.println(chessboard.getPiece(new Coordinates(1, 1)).getSymbol());
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(1, 4))));
     }
     
-    @Test
+    /*@Test
     public void pawnCanMove2Forward() {
         final Chessboard chessboard = Chessboard.startingBoard();
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 1)).canMove(chessboard, (new Coordinates(0, 3))));
@@ -118,7 +121,7 @@ public class ChessboardTest {
     public void pawnCanPromote() {
     
     }
-    
+    */
     // Tests for Rook
     
     // Tests for Knights
