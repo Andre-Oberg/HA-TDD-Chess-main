@@ -226,7 +226,7 @@ public class ChessboardTest {
     }*/
     
     // Tests for Knights
-    @Test
+    /*@Test
     public void knightBasicMovement() {
         Chessboard chessboard = new Chessboard();
         
@@ -311,8 +311,61 @@ public class ChessboardTest {
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(6, 0)).canMove(chessboard, (new Coordinates(0, 5))));
         
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 4)).canMove(chessboard, (new Coordinates(3, 2))));
-    }    
+    }   */ 
     // Tests for Bishop
+    
+    @Test
+    public void bishopBasicMovement() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(2, 0)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(5, 0)));
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(2, 7)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(5, 7)));
+        
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(2, 0)).canMove(chessboard, (new Coordinates(3, 6))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(5, 7)).canMove(chessboard, (new Coordinates(5, 2))));
+        
+    }
+    
+    @Test
+    public void bishopCapture() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(0, 5)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(2, 7)));
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(5, 0)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(3, 2)));
+        
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(2, 7)).canMove(chessboard, (new Coordinates(5, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(5, 0)).canMove(chessboard, (new Coordinates(3, 2))));
+        
+    }
+    
+    @Test
+    public void bishopInvalidMovement() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(4, 5)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(2, 7)));
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(5, 0)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(2, 3)));
+        
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(0, 7)));
+        chessboard.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(7, 0)));
+        
+        // Tests with chess pieces in the way
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(2, 7)).canMove(chessboard, (new Coordinates(5, 4))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(5, 0)).canMove(chessboard, (new Coordinates(0, 5))));
+        
+        // Tests where the coordinate is not possible for bishop
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(0, 7)).canMove(chessboard, (new Coordinates(0, 6))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(7, 0)).canMove(chessboard, (new Coordinates(6, 3))));
+        
+    }
     
     // Tests for Queen
     
