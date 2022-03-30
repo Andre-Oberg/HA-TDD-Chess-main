@@ -73,6 +73,7 @@ public class Pawn extends ChessPiece {
                     return true;
             }
             
+            // Check for capture
             if ((this.getLocation().getX()+1)-(destination.getX()+1) == 1) {
                 System.out.println("To Left");
                 if (chessboard.getPiece(destination).getPlayer() != this.getPlayer()) {
@@ -92,9 +93,10 @@ public class Pawn extends ChessPiece {
         // Checks if pawn can move forward twice
         if (hasMoved() != true) {
             if (destY == twoMove) {
-                System.out.println("In Two Move");
-                if (destination.getX() == this.getLocation().getX() && chessboard.getPiece(destination) == null) {
-                    return true;
+                if (chessboard.getPiece(new Coordinates(destination.getX(), destination.getY()-oneMove)) == null) {
+                    if (destination.getX() == this.getLocation().getX() && chessboard.getPiece(destination) == null) {
+                        return true;
+                    }
                 }
             }
         }

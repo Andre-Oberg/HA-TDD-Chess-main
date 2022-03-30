@@ -128,7 +128,7 @@ public class ChessboardTest {
         chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 6)).canMove(chessboard, (new Coordinates(2, 4))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(0, 3))));
-    }*/
+    }
     
     @Test
     public void pawnCanCapture() {
@@ -147,24 +147,83 @@ public class ChessboardTest {
         
     }
     
-    /*@Test
+    @Test
     public void pawnCantMoveForward() {
-        final Chessboard chessboard = Chessboard.startingBoard();
-        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 2)));
-        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(0, 2))));
+        Chessboard chessboard = new Chessboard();
+        
+        // Check to see if same color piece can capture each other
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(2, 6)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(2, 5)));
+        
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(2, 1)));
+        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(2, 2)));
+
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(2, 6)).canMove(chessboard, (new Coordinates(2, 4))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(2, 1)).canMove(chessboard, (new Coordinates(2, 3))));
     }*/
     
     /*@Test
-    public void pawnCanTakePiece() {
+    public void pawnCanPromote() {
     
+    }*/
+    
+    // Tests for Rook
+    @Test
+    public void rookCanMoveForward() {
+        Chessboard chessboard = new Chessboard();
+
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 0)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 7)));
+
+
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 0)).canMove(chessboard, (new Coordinates(0, 7))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(7, 7)).canMove(chessboard, (new Coordinates(7, 0))));
     }
     
     @Test
-    public void pawnCanPromote() {
-    
+    public void rookCanMoveSideways() {
+        Chessboard chessboard = new Chessboard();
+
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 0)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 7)));
+
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 0)).canMove(chessboard, (new Coordinates(7, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(7, 7)).canMove(chessboard, (new Coordinates(0, 7))));
     }
     
-    // Tests for Rook
+    @Test
+    public void rookCannotMovepastPiece() {
+        Chessboard chessboard = new Chessboard();
+        
+        // Check to see if same color piece can capture each other
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 0)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 7)));
+        
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(1, 0)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(6, 7)));
+        
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(1, 5)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(6, 5)));
+
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(0, 0)).canMove(chessboard, (new Coordinates(5, 0))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(7, 7)).canMove(chessboard, (new Coordinates(5, 7))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 5)).canMove(chessboard, (new Coordinates(6, 5))));
+    }
+    
+    @Test
+    public void rookCanCapturePiece() {
+        Chessboard chessboard = new Chessboard();
+        
+        // Check to see if same color piece can capture each other
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 0)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(2, 0)));
+        
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(5, 5)));
+        chessboard.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(5, 6)));
+
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 0)).canMove(chessboard, (new Coordinates(2, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(5, 5)).canMove(chessboard, (new Coordinates(5, 6))));
+    }
     
     // Tests for Knights
     
@@ -173,5 +232,5 @@ public class ChessboardTest {
     // Tests for Queen
     
     // Tests for King
-    */
+    
 }

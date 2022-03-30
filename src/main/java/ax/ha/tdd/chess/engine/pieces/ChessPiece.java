@@ -45,6 +45,16 @@ public abstract class ChessPiece {
      */
     public abstract boolean canMove(final Chessboard chessboard, final Coordinates destination);
 
+    protected boolean checkIfDestinationAvaiable(final Chessboard chessboard, final Coordinates destination) {
+        if (chessboard.getPiece(destination) == null) {
+            return true;
+        }
+        if (this.player != chessboard.getPiece(destination).getPlayer()) {
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
