@@ -272,11 +272,46 @@ public class ChessboardTest {
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(5, 2)));
        
-
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 7)).canMove(chessboard, (new Coordinates(3, 6))));
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(6, 0)).canMove(chessboard, (new Coordinates(5, 2))));
     }
     
+    @Test
+    public void knightTryingToCaptureSameColorPiece() {
+        Chessboard chessboard = new Chessboard();
+        
+        // Check to see if same color piece can capture each other
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(1, 7)));
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(3, 6)));
+        
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(5, 2)));
+       
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 7)).canMove(chessboard, (new Coordinates(3, 6))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(6, 0)).canMove(chessboard, (new Coordinates(5, 2))));
+    }
+
+    @Test
+    public void knightTyringToMakeInvalidMove() {
+        Chessboard chessboard = new Chessboard();
+        
+        // Check to see if same color piece can capture each other
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(1, 7)));
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(6, 7)));
+        
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(1, 0)));
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
+        
+        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(4, 4)));
+       
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 7)).canMove(chessboard, (new Coordinates(2, 6))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(6, 7)).canMove(chessboard, (new Coordinates(4, 5))));
+        
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 0)).canMove(chessboard, (new Coordinates(2, 1))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(6, 0)).canMove(chessboard, (new Coordinates(0, 5))));
+        
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 4)).canMove(chessboard, (new Coordinates(3, 2))));
+    }    
     // Tests for Bishop
     
     // Tests for Queen
