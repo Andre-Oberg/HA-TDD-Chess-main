@@ -24,9 +24,17 @@ public class Bishop extends ChessPiece {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public boolean getMoves(Chessboard chessboard, Coordinates destination) {
+        return moveDiagonally(chessboard, destination);
+    }
+    
     @Override
     public boolean canMove(Chessboard chessboard, Coordinates destination) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (checkIfDestinationAvaiable(chessboard, destination)) {
+            return moveDiagonally(chessboard, destination);
+        }
+        return false;
     }
     
 }

@@ -3,6 +3,7 @@ package ax.ha.tdd.chess.engine.pieces;
 import ax.ha.tdd.chess.engine.Chessboard;
 import ax.ha.tdd.chess.engine.Coordinates;
 import ax.ha.tdd.chess.engine.Player;
+import static java.lang.Math.abs;
 
 import java.util.Objects;
 
@@ -45,6 +46,75 @@ public abstract class ChessPiece {
      */
     public abstract boolean canMove(final Chessboard chessboard, final Coordinates destination);
 
+    protected boolean moveDiagonally(final Chessboard chessboard, final Coordinates destination) {
+        
+        int xStart = 0;
+        int xEnd = 0;
+            
+        int yStart = 0;
+        int yEnd = 0;
+        
+        System.out.println("Values x: "+destination.getX()+" "+this.getLocation().getX());
+        System.out.println("Values y: "+destination.getY()+" "+this.getLocation().getY());
+        
+        System.out.println(Math.abs(destination.getX()-this.getLocation().getX()));
+        System.out.println(Math.abs(destination.getY()-this.getLocation().getY()));
+        
+        int xTot = Math.abs(destination.getX()-this.getLocation().getX());
+        int yTot = Math.abs(destination.getY()-this.getLocation().getY());
+        
+        System.out.println("Before 1st if: "+xTot+" "+yTot);
+        if  (xTot == yTot) {
+            
+            
+            System.out.println("Before 1st if in if");
+            if (destination.getX() < this.getLocation().getX()) {
+                System.out.println("X destination is smaller then this");
+                xStart = destination.getX(); 
+                xEnd = this.getLocation().getX();
+            } else if (destination.getX() > this.getLocation().getX()) {
+                System.out.println("X this is smaller then destination");
+                xStart = this.getLocation().getX();
+                xEnd = destination.getX();
+            } else {
+                return false;
+            }
+            
+            
+            
+            System.out.println("Before 2nd if in if");
+            if (destination.getY() < this.getLocation().getY()) {
+                yStart = this.getLocation().getY(); 
+                //yEnd = this.getLocation().getY();
+            } else if (destination.getY() > this.getLocation().getY()) {
+                yStart = destination.getY();
+                //yEnd = destination.getY();
+            } else {
+                return false;
+            }
+            
+            System.out.println("Before increase coordinates: "+xStart+" "+yStart);
+            
+            yStart -= 1;
+            xStart += 1;
+            
+            System.out.println("Before while coordinates: "+xStart+" "+yStart);
+            
+            for (; xStart < xEnd; xStart++, yStart--) {
+                System.out.println("Currently at: "+xStart+" "+yStart);
+                if (chessboard.getPiece(new Coordinates(xStart, yStart)) != null) {
+                    System.out.println("Found piece at: "+xStart+" "+yStart);
+                    return false;
+                }
+            }
+            
+            return true;
+            
+        }
+        
+        return false;
+    }
+    
     protected boolean checkIfDestinationAvaiable(final Chessboard chessboard, final Coordinates destination) {
         if (chessboard.getPiece(destination) == null) {
             return true;
