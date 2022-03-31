@@ -21,7 +21,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     public String getSymbol() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return pieceType.getSymbol();
     }
 
     public boolean getMoves(Chessboard chessboard, Coordinates destination) {

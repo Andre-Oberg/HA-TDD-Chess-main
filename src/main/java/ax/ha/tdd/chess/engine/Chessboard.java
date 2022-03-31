@@ -57,4 +57,15 @@ public class Chessboard implements Iterable<ChessPiece[]> {
     public Iterator<ChessPiece[]> iterator() {
         return List.of(board).iterator();
     }
+    
+    /*public ChessPiece movePiece(Coordinates coordinate) {
+        ChessPiece tmp = this.piece;
+        addPiece(null, coordinate);
+        return tmp;
+    }
+    
+    public void setPiece(ChessPiece piece, Coordinates coordinate) {
+        return void;
+    }*/
+    
 }

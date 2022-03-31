@@ -13,9 +13,9 @@ import ax.ha.tdd.chess.engine.Player;
  *
  * @author André
  */
-public class Queen extends ChessPiece {
+public class King extends ChessPiece {
 
-    public Queen(PieceType pieceType, Player player, Coordinates location) {
+    public King(PieceType pieceType, Player player, Coordinates location) {
         super(pieceType, player, location);
     }
 
@@ -25,17 +25,19 @@ public class Queen extends ChessPiece {
     }
 
     public boolean getMoves(Chessboard chessboard, Coordinates destination) {
-        if (checkIfDestinationAvaiable(chessboard, destination)) {
-            if (moveStraight(chessboard, destination) || moveDiagonally(chessboard, destination)) {
-                return true;
-            }
-        }
-        return false;
+    
+        int X[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+        int Y[] = { 1, 1, 1, 0, -1, -1, -1, 0 };
+        
+        return true;
     }
     
     @Override
     public boolean canMove(Chessboard chessboard, Coordinates destination) {
-        return getMoves(chessboard, destination);
+        if (checkIfDestinationAvaiable(chessboard, destination)) {
+            return getMoves(chessboard, destination);
+        }
+        return false;
     }
     
 }
