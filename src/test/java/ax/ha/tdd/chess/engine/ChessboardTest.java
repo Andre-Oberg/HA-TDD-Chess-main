@@ -424,10 +424,37 @@ public class ChessboardTest {
         Chessboard chessboard = new Chessboard();
         
         chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
-        chessboard.addPiece(new Queen(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        chessboard.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
         
-        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(3, 0)).canMove(chessboard, (new Coordinates(4, 7))));
-        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(3, 7)).canMove(chessboard, (new Coordinates(5, 2))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(4, 0)).canMove(chessboard, (new Coordinates(5, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(4, 7)).canMove(chessboard, (new Coordinates(5, 6))));
+        
+    }
+    
+    @Test
+    public void kingCapture() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        chessboard.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(5, 0)));
+        
+        chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 6)));
+        chessboard.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(4, 0)).canMove(chessboard, (new Coordinates(5, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(4, 7)).canMove(chessboard, (new Coordinates(4, 6))));
+        
+    }
+    
+    @Test
+    public void kingInvalidMovement() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        chessboard.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 0)).canMove(chessboard, (new Coordinates(6, 0))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 7)).canMove(chessboard, (new Coordinates(4, 5))));
         
     }
 }

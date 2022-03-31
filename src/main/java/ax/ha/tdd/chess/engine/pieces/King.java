@@ -29,7 +29,14 @@ public class King extends ChessPiece {
         int X[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
         int Y[] = { 1, 1, 1, 0, -1, -1, -1, 0 };
         
-        return true;
+        // Praktiskt samma kod som användes för knight
+        for (int i = 0; i < 8; i++) {
+            if (this.getLocation().getX()+X[i] == destination.getX() && this.getLocation().getY()+Y[i] == destination.getY()) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     @Override
