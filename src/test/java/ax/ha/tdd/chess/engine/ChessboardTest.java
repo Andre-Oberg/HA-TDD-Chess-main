@@ -367,7 +367,54 @@ public class ChessboardTest {
         
     }
     
-    // Tests for Queen
+    // Tests for Queen (Basicly the exact tests from Rook and Bishop)
+    @Test
+    public void queenBasicMovement() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(3, 0)));
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(3, 7)));
+        
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(0, 4)));
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(7, 3)));
+        
+        //Move straight tests
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(3, 0)).canMove(chessboard, (new Coordinates(7, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(3, 7)).canMove(chessboard, (new Coordinates(6, 3))));
+        
+        //Move diagonally tests
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 4)).canMove(chessboard, (new Coordinates(4, 0))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(7, 3)).canMove(chessboard, (new Coordinates(5, 5))));
+    }
+    
+    @Test
+    public void queenCaptureTest() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(3, 0)));
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(3, 7)));
+        
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(7, 0)));
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(7, 7)));
+        
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(3, 0)).canMove(chessboard, (new Coordinates(3, 7))));
+        
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(7, 7)).canMove(chessboard, (new Coordinates(7, 0))));
+        
+    }
+    
+    @Test
+    public void queenInvalidMove() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(3, 0)));
+        chessboard.addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(3, 7)));
+        
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(3, 0)).canMove(chessboard, (new Coordinates(4, 7))));
+        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(3, 7)).canMove(chessboard, (new Coordinates(5, 2))));
+        
+    }
+    
     
     // Tests for King
     
