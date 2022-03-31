@@ -25,8 +25,8 @@ public class Rook extends ChessPiece {
     }
     
     public boolean getMoves(Chessboard chessboard, Coordinates destination) {
-        
-        int startX = this.getLocation().getX();
+        return moveStraight(chessboard, destination);
+        /*int startX = this.getLocation().getX();
         int endX = destination.getX();
         
         int startY = this.getLocation().getY();
@@ -82,7 +82,7 @@ public class Rook extends ChessPiece {
             return checkIfDestinationAvaiable(chessboard, destination);
         }
 
-        return false;
+        return false;*/
     }
     
     @Override

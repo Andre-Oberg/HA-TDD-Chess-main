@@ -314,7 +314,7 @@ public class ChessboardTest {
     }   */ 
     // Tests for Bishop
     
-    @Test
+    /*@Test
     public void bishopBasicMovement() {
         Chessboard chessboard = new Chessboard();
         
@@ -365,7 +365,7 @@ public class ChessboardTest {
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(0, 7)).canMove(chessboard, (new Coordinates(0, 6))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(7, 0)).canMove(chessboard, (new Coordinates(6, 3))));
         
-    }
+    }*/
     
     // Tests for Queen (Basicly the exact tests from Rook and Bishop)
     @Test
@@ -380,7 +380,7 @@ public class ChessboardTest {
         
         //Move straight tests
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(3, 0)).canMove(chessboard, (new Coordinates(7, 0))));
-        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(3, 7)).canMove(chessboard, (new Coordinates(6, 3))));
+        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(3, 7)).canMove(chessboard, (new Coordinates(6, 4))));
         
         //Move diagonally tests
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 4)).canMove(chessboard, (new Coordinates(4, 0))));
