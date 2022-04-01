@@ -14,8 +14,6 @@ import ax.ha.tdd.chess.engine.Player;
  * @author André
  */
 public class Rook extends ChessPiece {
-
-    private boolean moved = false;
     
     public Rook(PieceType pieceType, Player player, Coordinates location) {
         super(pieceType, player, location);
@@ -28,7 +26,7 @@ public class Rook extends ChessPiece {
     
     public boolean getMoves(Chessboard chessboard, Coordinates destination) {
         if (moveStraight(chessboard, destination)) {
-            moved = true;
+            //this.setMoved();
             return true;
         }
         return false;

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class ChessboardTest {
 
-    /*@Test
+    @Test
     public void Chessboard_fromBeginning_isEmpty() {
         final Chessboard chessboard = new Chessboard();
         for (int x = 0; x < 8; x++) {
@@ -18,7 +18,7 @@ public class ChessboardTest {
         }
     }
 
-    @Test
+    /*@Test
     public void fullboard_whitePieces_isInCorrectSpot() {
         final Chessboard chessboard = Chessboard.startingBoard();
         for (int x = 0; x < 8; x++) {
@@ -37,8 +37,8 @@ public class ChessboardTest {
             }
         }
     }
-    */
-    /*@Test
+    
+    @Test
     public void fullboard_Pawns_isInCorrectSpot() {
         final Chessboard chessboard = Chessboard.startingBoard();
         for (int x = 0; x < 8; x++) {
@@ -46,9 +46,9 @@ public class ChessboardTest {
             Assertions.assertEquals("P", chessboard.getPiece(new Coordinates(x, 6)).getSymbol());
         }
         
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void fullboard_Rooks_isInCorrectSpot() {
         final Chessboard chessboard = Chessboard.startingBoard();
         Assertions.assertEquals("R", chessboard.getPiece(new Coordinates(0, 0)).getSymbol());
@@ -87,8 +87,8 @@ public class ChessboardTest {
         final Chessboard chessboard = Chessboard.startingBoard();
         Assertions.assertEquals(new ChessPieceStub(PieceType.QUEEN, Player.BLACK), chessboard.getPiece(new Coordinates(3, 0)));
         Assertions.assertEquals(new ChessPieceStub(PieceType.QUEEN, Player.WHITE), chessboard.getPiece(new Coordinates(3, 7)));
-    }
-    */
+    }*/
+    
     // Tests for Pawns
     
     @Test
@@ -105,17 +105,10 @@ public class ChessboardTest {
         
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(6, 7)));
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
-        
-        
-        chessboard.getPlayerPieces(chessboard);
-        chessboard.getAccessibleFields(chessboard);
-        /*chessboard.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(1, 6)));
-        chessboard.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(1, 1)));
-        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 6)).canMove(chessboard, (new Coordinates(1, 5))));
-        Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 1)).canMove(chessboard, (new Coordinates(1, 2))));*/
+
     }
     
-    /*
+    
     @Test
     public void pawnCanMove1Forward() {
         Chessboard chessboard = new Chessboard();
@@ -186,15 +179,15 @@ public class ChessboardTest {
 
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(2, 6)).canMove(chessboard, (new Coordinates(2, 4))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(2, 1)).canMove(chessboard, (new Coordinates(2, 3))));
-    }*/
+    }
     
-    /*@Test
+    @Test
     public void pawnCanPromote() {
     
-    }*/
+    }
     
     // Tests for Rook
-    /*@Test
+    @Test
     public void rookCanMoveForward() {
         Chessboard chessboard = new Chessboard();
 
@@ -249,10 +242,10 @@ public class ChessboardTest {
 
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 0)).canMove(chessboard, (new Coordinates(2, 0))));
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(5, 5)).canMove(chessboard, (new Coordinates(5, 6))));
-    }*/
+    }
     
     // Tests for Knights
-    /*@Test
+    @Test
     public void knightBasicMovement() {
         Chessboard chessboard = new Chessboard();
         
@@ -263,16 +256,13 @@ public class ChessboardTest {
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(6, 7)));
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
         
-        chessboard.getPlayerPieces(chessboard);
-        chessboard.getAccessibleFields(chessboard);
-        
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 7)).canMove(chessboard, (new Coordinates(0, 5))));
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(1, 0)).canMove(chessboard, (new Coordinates(2, 2))));
         
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(6, 7)).canMove(chessboard, (new Coordinates(5, 5))));
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(6, 0)).canMove(chessboard, (new Coordinates(4, 1))));
-    }*/
-    /*
+    }
+    
     @Test
     public void knightMovingOverOtherPieces() {
         Chessboard chessboard = new Chessboard();
@@ -329,20 +319,17 @@ public class ChessboardTest {
         
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(1, 0)));
         chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
-        
-        chessboard.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(4, 4)));
        
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 7)).canMove(chessboard, (new Coordinates(2, 6))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(6, 7)).canMove(chessboard, (new Coordinates(4, 5))));
         
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(1, 0)).canMove(chessboard, (new Coordinates(2, 1))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(6, 0)).canMove(chessboard, (new Coordinates(0, 5))));
-        
-        Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 4)).canMove(chessboard, (new Coordinates(3, 2))));
-    }   */ 
+
+    }   
     // Tests for Bishop
     
-    /*@Test
+    @Test
     public void bishopBasicMovement() {
         Chessboard chessboard = new Chessboard();
         
@@ -393,10 +380,10 @@ public class ChessboardTest {
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(0, 7)).canMove(chessboard, (new Coordinates(0, 6))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(7, 0)).canMove(chessboard, (new Coordinates(6, 3))));
         
-    }*/
+    }
     
     // Tests for Queen (Basicly the exact tests from Rook and Bishop)
-    /*@Test
+    @Test
     public void queenBasicMovement() {
         Chessboard chessboard = new Chessboard();
         
@@ -413,9 +400,9 @@ public class ChessboardTest {
         //Move diagonally tests
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(0, 4)).canMove(chessboard, (new Coordinates(4, 0))));
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(7, 3)).canMove(chessboard, (new Coordinates(5, 5))));
-    }*/
+    }
     
-    /*@Test
+    @Test
     public void queenCaptureTest() {
         Chessboard chessboard = new Chessboard();
         
@@ -431,9 +418,9 @@ public class ChessboardTest {
         
         
         
-    }*/
+    }
     
-    /*@Test
+    @Test
     public void queenInvalidMove() {
         Chessboard chessboard = new Chessboard();
         
@@ -442,15 +429,12 @@ public class ChessboardTest {
         
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(3, 0)).canMove(chessboard, (new Coordinates(4, 7))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(3, 7)).canMove(chessboard, (new Coordinates(5, 2))));
-        
-        chessboard.getPlayerPieces(chessboard);
-        chessboard.getAccessibleFields(chessboard);
-        
-    }*/
+
+    }
     
     
     // Tests for King
-    /*@Test
+    @Test
     public void kingBasicMoves() {
         Chessboard chessboard = new Chessboard();
         
@@ -475,22 +459,100 @@ public class ChessboardTest {
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(4, 0)).canMove(chessboard, (new Coordinates(5, 0))));
         Assertions.assertEquals(true, chessboard.getPiece(new Coordinates(4, 7)).canMove(chessboard, (new Coordinates(4, 6))));
         
-    }*/
+    }
     
-    /*@Test
+    @Test
     public void kingInvalidMovement() {
         Chessboard chessboard = new Chessboard();
         
         chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
         chessboard.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
         
-        chessboard.getPlayerPieces(chessboard);
-        
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 0)).canMove(chessboard, (new Coordinates(6, 0))));
         Assertions.assertEquals(false, chessboard.getPiece(new Coordinates(4, 7)).canMove(chessboard, (new Coordinates(4, 5))));
+
         
-        chessboard.getPlayerPieces(chessboard);
-        chessboard.getAccessibleFields(chessboard);
+    }
+    
+    @Test
+    public void kingValidCastling() {
         
-    }*/
+        Game newGame = new Game();
+        
+        
+        newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        newGame.board.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 0)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 7)));
+        
+        
+        newGame.move("4,0 7,0");
+        
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(7, 0)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(4, 0)).getSymbol());
+        
+        // Vid detta fall så bör vit inte kunna göra castling då svartas torn står mitemot den vita kungen
+        newGame.move("4,7 0,7");
+
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(4, 7)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(0, 7)).getSymbol());
+    }
+    
+    @Test
+    public void kingInValidCastling() {
+        Game newGame = new Game();
+        
+        newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(1, 1)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(0, 0)));
+        
+        //Bör leda till fail då motståndaren har ett torn som kan gå mellan kungen och tornet som man försöker castla till
+        newGame.move("4,0 0,0");
+        
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(4, 0)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(1, 1)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(0, 0)).getSymbol());
+        
+        newGame.board.deletePiece(new Coordinates(4, 0));
+        newGame.board.deletePiece(new Coordinates(1, 1));
+        newGame.board.deletePiece(new Coordinates(0, 0));
+                
+        newGame.board.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(7, 7)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 0)));
+        
+        newGame.move("4,7 7,7");
+        
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(4, 7)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(7, 7)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(7, 0)).getSymbol());
+        
+        newGame.board.deletePiece(new Coordinates(4, 7));
+        newGame.board.deletePiece(new Coordinates(7, 7));
+        newGame.board.deletePiece(new Coordinates(7, 0));
+        
+        newGame.board.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 0)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(7, 0)));
+        newGame.board.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(4, 7)));
+        
+        newGame.move("4,0 7,0");
+        
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(4, 0)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(7, 0)).getSymbol());
+        Assertions.assertEquals("Q", newGame.board.getPiece(new Coordinates(4, 7)).getSymbol());
+        
+    }
+    
+    @Test public void deletePiece() {
+        Chessboard chessboard = new Chessboard();
+        
+        chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        chessboard.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        
+        chessboard.deletePiece(new Coordinates(4, 0));
+        
+        Assertions.assertEquals(null, chessboard.getPiece(new Coordinates(4, 0)));
+    }
+
 }

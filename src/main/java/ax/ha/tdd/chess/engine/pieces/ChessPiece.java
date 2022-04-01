@@ -9,6 +9,8 @@ import java.util.Objects;
 
 public abstract class ChessPiece {
 
+    protected boolean moved;
+    
     protected final Player player;
     protected final PieceType pieceType;
 
@@ -19,6 +21,7 @@ public abstract class ChessPiece {
         this.pieceType = pieceType;
         this.player = player;
         this.location = location;
+        this.moved = false;
     }
 
     public abstract String getSymbol();
@@ -32,7 +35,18 @@ public abstract class ChessPiece {
     public Coordinates getLocation() {
         return location;
     }
-
+    
+    public void setLocation(Coordinates destination) {
+        this.location = destination;
+    }
+    
+    public void setMoved() {
+        this.moved = true;
+    }
+    
+    protected boolean getMoved() {
+        return moved;
+    }
 
     /**
      * Suggestion of design:

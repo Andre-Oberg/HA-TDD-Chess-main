@@ -1,8 +1,12 @@
 package ax.ha.tdd.chess.engine;
 
+import static ax.ha.tdd.chess.engine.Player.*;
 import ax.ha.tdd.chess.engine.pieces.ChessPiece;
 import ax.ha.tdd.chess.engine.pieces.ChessPieceStub;
 import ax.ha.tdd.chess.engine.pieces.PieceType;
+import static ax.ha.tdd.chess.engine.pieces.PieceType.KING;
+import ax.ha.tdd.chess.engine.pieces.*;
+import static ax.ha.tdd.chess.engine.pieces.PieceType.ROOK;
 import java.util.ArrayList;
 
 import java.util.Iterator;
@@ -17,8 +21,11 @@ public class Chessboard implements Iterable<ChessPiece[]> {
     
     private final ChessPiece[][] board = new ChessPiece[8][8];
 
-    private List<Coordinates> whitePlayerPieces = new ArrayList<>();
+    /*private List<Coordinates> whitePlayerPieces = new ArrayList<>();
     private List<Coordinates> blackPlayerPieces = new ArrayList<>();
+    */
+    private List<ChessPiece> whitePlayerPieces = new ArrayList<>();
+    private List<ChessPiece> blackPlayerPieces = new ArrayList<>();
     
     private List<Coordinates> whiteAccessibleFields = new ArrayList<>();
     private List<Coordinates> blackAccessibleFields = new ArrayList<>();
@@ -26,12 +33,14 @@ public class Chessboard implements Iterable<ChessPiece[]> {
     public static Chessboard startingBoard() {
         final Chessboard chessboard = new Chessboard();
 
-        chessboard.withMirroredPiece(PieceType.PAWN, List.of(0,1,2,3,4,5,6,7), 1)
+        /*chessboard.withMirroredPiece(PieceType.PAWN, List.of(0,1,2,3,4,5,6,7), 1)
                 .withMirroredPiece(PieceType.ROOK, List.of(0,7), 0)
                 .withMirroredPiece(PieceType.KNIGHT, List.of(1,6), 0)
                 .withMirroredPiece(PieceType.BISHOP, List.of(2,5), 0)
                 .withMirroredPiece(PieceType.QUEEN, List.of(3), 0)
-                .withMirroredPiece(PieceType.KING, List.of(4), 0);
+                .withMirroredPiece(PieceType.KING, List.of(4), 0);*/
+        //chessboard.withMirroredPiece();
+        
         return chessboard;
     }
 
@@ -53,12 +62,34 @@ public class Chessboard implements Iterable<ChessPiece[]> {
      * @param yCoordinate yCoordinateOffset
      * @return itself, like a builder pattern
      */
-    private Chessboard withMirroredPiece(final PieceType pieceType,
-                                         final List<Integer> xCoordinates, final int yCoordinate) {
-        xCoordinates.forEach(xCoordinate -> {
-            addPiece(new ChessPieceStub(pieceType, Player.BLACK, new Coordinates(xCoordinate, yCoordinate)));
-            addPiece(new ChessPieceStub(pieceType, Player.WHITE, new Coordinates(xCoordinate, 7 - yCoordinate)));
-        });
+    private Chessboard withMirroredPiece() {
+        
+        for (int i = 0; i < 8; i++) {
+            addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(i, 1)));
+            addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(i, 6)));
+        }
+               
+        addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(0, 0)));
+        addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 7)));
+        addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 0)));
+        addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(7, 7)));
+        
+        addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(1, 0)));
+        addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(1, 7)));
+        addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(6, 0)));
+        addPiece(new Knight(PieceType.KNIGHT, Player.WHITE, new Coordinates(6, 7)));
+        
+        addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(2, 0)));
+        addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(2, 7)));
+        addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(5, 0)));
+        addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(5, 7)));
+        
+        addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(3, 0)));
+        addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(3, 7)));
+        
+        addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+            
         return this;
     }
 
@@ -67,67 +98,119 @@ public class Chessboard implements Iterable<ChessPiece[]> {
         return List.of(board).iterator();
     }
     
-    /*public ChessPiece movePiece(Coordinates coordinate) {
-        ChessPiece tmp = this.piece;
-        addPiece(null, coordinate);
-        return tmp;
+    public void deletePiece(Coordinates oldLocation) {
+        board[oldLocation.getY()][oldLocation.getX()] = null;
     }
     
-    public void setPiece(ChessPiece piece, Coordinates coordinate) {
-        return void;
-    }*/
+    public boolean checkIfSameColorTower(ChessPiece newPiece, ChessPiece oldPiece) {
+        if (oldPiece.getPieceType() == ROOK && oldPiece.getPlayer() == newPiece.getPlayer()) {
+            return true;
+        }
+        return false;
+    }
     
-    public void getAccessibleFields(Chessboard chessboard) {
+    public void movePiece(Coordinates newLocation, Coordinates oldLocation, ChessPiece newPiece) { 
+        
+        
+        // Behövde specifik if sats ifall man utför castling, annars tas tornet bort och kungen flyttas till dens plats
+        if (this.getPiece(newLocation) != null) {
+            
+            ChessPiece temp = this.getPiece(newLocation);
+            if (checkIfSameColorTower(newPiece, temp) == true) {
+                newPiece.setLocation(newLocation);
+                this.addPiece(newPiece);
+                temp.setLocation(oldLocation);
+                this.addPiece(temp);
+            }
+        } else {
+            newPiece.setLocation(newLocation);
+            this.addPiece(newPiece);
+            deletePiece(oldLocation);
+
+        }
+    }
+    
+    public List<Coordinates> getAccessibleFields(Player player) {
+        
+        
+        if (player == BLACK) {
+            return whiteAccessibleFields;
+        } else {
+            return blackAccessibleFields;
+        }
+    }
+    
+    public void updateAccessibleFields() {
         
         whiteAccessibleFields.clear();
         blackAccessibleFields.clear();
               
-        //System.out.println("Black pieces: "+blackPlayerPieces.size()+" White pieces: "+whitePlayerPieces.size());
-        /*whitePlayerPieces.forEach(temp -> {
-            whiteAccessibleFields.addAll(chessboard.getPiece(temp).getMoves(this, temp.getX(), temp.getY()));
-        });*/
-        
-        whitePlayerPieces.forEach(temp -> {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (chessboard.getPiece(temp).canMove(chessboard, new Coordinates(i, j)) == true && whiteAccessibleFields.contains(new Coordinates(i, j)) != true) {
-                        whiteAccessibleFields.add(new Coordinates(i, j));
+            whitePlayerPieces.forEach(temp -> {
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        if (temp.canMove(this, new Coordinates(i, j)) == true && whiteAccessibleFields.contains(new Coordinates(i, j)) != true) {
+                            whiteAccessibleFields.add(new Coordinates(i, j));
+                        }
                     }
                 }
-            }
-        });
-        
-        System.out.println("Before black");
-        
-        blackPlayerPieces.forEach(temp -> {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (chessboard.getPiece(temp).canMove(chessboard, new Coordinates(i, j)) == true && blackAccessibleFields.contains(new Coordinates(i, j)) != true) {
-                        blackAccessibleFields.add(new Coordinates(i, j));
+            });
+            
+            blackPlayerPieces.forEach(temp -> {
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        if (temp.canMove(this, new Coordinates(i, j)) == true && blackAccessibleFields.contains(new Coordinates(i, j)) != true) {
+                            blackAccessibleFields.add(new Coordinates(i, j));
+                        }
                     }
                 }
-            }
-        });
-        
-        System.out.println("Black accesible fields: "+blackAccessibleFields.size()+" White accesible fields: "+whiteAccessibleFields.size());
+            });
     }
     
-    public void getPlayerPieces(Chessboard chessboard) {
+    public void getPlayerPieces() {
+        
+        whitePlayerPieces.clear();
+        blackPlayerPieces.clear();
+        
+        ChessPiece temp = null;
         
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                System.out.println("X: "+i+" Y: "+j);
-                if (chessboard.getPiece(new Coordinates(i, j)) != null) {
-                    if (chessboard.getPiece(new Coordinates(i, j)).getPlayer() == Player.BLACK){
-                        blackPlayerPieces.add(new Coordinates(i, j));
-                    } else if (chessboard.getPiece(new Coordinates(i, j)).getPlayer() == Player.WHITE) {
-                        whitePlayerPieces.add(new Coordinates(i, j));
+                if (this.getPiece(new Coordinates(i, j)) != null) {
+                    temp = this.getPiece(new Coordinates(i, j));
+                    if (temp.getPlayer() == Player.BLACK){
+                        blackPlayerPieces.add(temp);
+                    } else if (temp.getPlayer() == Player.WHITE) {
+                        whitePlayerPieces.add(temp);
                     }
                 }
             }
         }
-        System.out.println("Black pieces: "+blackPlayerPieces.size()+" White pieces: "+whitePlayerPieces.size());
+       
+    }
+    
+    public ChessPiece getPlayerKing(Player player) {
         
+        ChessPiece king = null;
+        
+        
+        if (player == BLACK) {
+            for (ChessPiece temp : blackPlayerPieces) {
+                if (temp.getPieceType().getSymbol().equals("K")) {
+                    return temp;
+                }
+            }
+        } else if (player == WHITE) {
+            for (ChessPiece temp : whitePlayerPieces) {
+                if (temp.getPieceType() == KING) {
+                    return temp;
+                }
+            }
+        }
+        return king;
+    }
+    
+    public void getPlayerPiecesSize() {
+        System.out.println("BP: "+blackPlayerPieces.size()+" WP: "+whitePlayerPieces);
     }
     
 }
