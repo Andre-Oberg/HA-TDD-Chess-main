@@ -1,12 +1,15 @@
 package ax.ha.tdd.chess.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Game {
 
     Chessboard board = Chessboard.startingBoard();
 
     //Feel free to delete this stuff. Just for initial testing.
     boolean isNewGame = true;
-
+    
     public Player getPlayerToMove() {
         //TODO this should reflect the current state.
         return Player.WHITE;
@@ -29,5 +32,7 @@ public class Game {
         //TODO this should trigger your move logic.
         isNewGame = false;
         System.out.println("Player tried to perform move: " + move);
+        //if ("")
     }
+    
 }

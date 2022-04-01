@@ -76,15 +76,19 @@ public class Pawn extends ChessPiece {
             // Check for capture
             if ((this.getLocation().getX()+1)-(destination.getX()+1) == 1) {
                 System.out.println("To Left");
-                if (chessboard.getPiece(destination).getPlayer() != this.getPlayer()) {
-                    System.out.println("Captured Left");
-                    return true;
+                if (chessboard.getPiece(destination) != null) {
+                    if (chessboard.getPiece(destination).getPlayer() != this.getPlayer()) {
+                        System.out.println("Captured Left");
+                        return true;
+                    }
                 }
             } else if ((this.getLocation().getX()+1)-(destination.getX()+1) == -1) {
                 System.out.println("To Right");
-                if (chessboard.getPiece(destination).getPlayer() != this.getPlayer()) {
-                    System.out.println("Captured Right");
-                    return true;
+                if (chessboard.getPiece(destination) != null) {
+                    if (chessboard.getPiece(destination).getPlayer() != (this.getPlayer())) {
+                        System.out.println("Captured Right");
+                        return true;
+                    }
                 }
            }
         }

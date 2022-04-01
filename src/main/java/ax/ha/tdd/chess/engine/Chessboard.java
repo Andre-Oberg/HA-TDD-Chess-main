@@ -3,6 +3,7 @@ package ax.ha.tdd.chess.engine;
 import ax.ha.tdd.chess.engine.pieces.ChessPiece;
 import ax.ha.tdd.chess.engine.pieces.ChessPieceStub;
 import ax.ha.tdd.chess.engine.pieces.PieceType;
+import java.util.ArrayList;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +13,16 @@ public class Chessboard implements Iterable<ChessPiece[]> {
     // since the ChessPieces right now keep track of their own location.
     // Feel free to change this however you like
     // [y][x]
+    
+    
     private final ChessPiece[][] board = new ChessPiece[8][8];
 
+    private List<Coordinates> whitePlayerPieces = new ArrayList<>();
+    private List<Coordinates> blackPlayerPieces = new ArrayList<>();
+    
+    private List<Coordinates> whiteAccessibleFields = new ArrayList<>();
+    private List<Coordinates> blackAccessibleFields = new ArrayList<>();
+    
     public static Chessboard startingBoard() {
         final Chessboard chessboard = new Chessboard();
 
@@ -67,5 +76,58 @@ public class Chessboard implements Iterable<ChessPiece[]> {
     public void setPiece(ChessPiece piece, Coordinates coordinate) {
         return void;
     }*/
+    
+    public void getAccessibleFields(Chessboard chessboard) {
+        
+        whiteAccessibleFields.clear();
+        blackAccessibleFields.clear();
+              
+        //System.out.println("Black pieces: "+blackPlayerPieces.size()+" White pieces: "+whitePlayerPieces.size());
+        /*whitePlayerPieces.forEach(temp -> {
+            whiteAccessibleFields.addAll(chessboard.getPiece(temp).getMoves(this, temp.getX(), temp.getY()));
+        });*/
+        
+        whitePlayerPieces.forEach(temp -> {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (chessboard.getPiece(temp).canMove(chessboard, new Coordinates(i, j)) == true && whiteAccessibleFields.contains(new Coordinates(i, j)) != true) {
+                        whiteAccessibleFields.add(new Coordinates(i, j));
+                    }
+                }
+            }
+        });
+        
+        System.out.println("Before black");
+        
+        blackPlayerPieces.forEach(temp -> {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (chessboard.getPiece(temp).canMove(chessboard, new Coordinates(i, j)) == true && blackAccessibleFields.contains(new Coordinates(i, j)) != true) {
+                        blackAccessibleFields.add(new Coordinates(i, j));
+                    }
+                }
+            }
+        });
+        
+        System.out.println("Black accesible fields: "+blackAccessibleFields.size()+" White accesible fields: "+whiteAccessibleFields.size());
+    }
+    
+    public void getPlayerPieces(Chessboard chessboard) {
+        
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                System.out.println("X: "+i+" Y: "+j);
+                if (chessboard.getPiece(new Coordinates(i, j)) != null) {
+                    if (chessboard.getPiece(new Coordinates(i, j)).getPlayer() == Player.BLACK){
+                        blackPlayerPieces.add(new Coordinates(i, j));
+                    } else if (chessboard.getPiece(new Coordinates(i, j)).getPlayer() == Player.WHITE) {
+                        whitePlayerPieces.add(new Coordinates(i, j));
+                    }
+                }
+            }
+        }
+        System.out.println("Black pieces: "+blackPlayerPieces.size()+" White pieces: "+whitePlayerPieces.size());
+        
+    }
     
 }
