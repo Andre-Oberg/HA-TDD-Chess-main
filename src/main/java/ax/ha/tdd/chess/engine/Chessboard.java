@@ -39,6 +39,7 @@ public class Chessboard implements Iterable<ChessPiece[]> {
                 .withMirroredPiece(PieceType.BISHOP, List.of(2,5), 0)
                 .withMirroredPiece(PieceType.QUEEN, List.of(3), 0)
                 .withMirroredPiece(PieceType.KING, List.of(4), 0);*/
+        
         //chessboard.withMirroredPiece();
         
         return chessboard;
@@ -107,6 +108,17 @@ public class Chessboard implements Iterable<ChessPiece[]> {
             return true;
         }
         return false;
+    }
+    
+    //Funktion för att hjälpa Rook och Bishop (skulle igentligen bara behöva kalla på delete piece)
+    public void liftKing(Coordinates king) {
+        this.deletePiece(king);
+    }
+    
+    //Funktion för att hjälpa Rook och Bishop
+    public void setKing(ChessPiece king) {
+        board[king.getLocation().getY()][king.getLocation().getX()] = king;
+        //board[king.getLocation().getX()][king.getLocation().getY()] = null;
     }
     
     public void movePiece(Coordinates newLocation, Coordinates oldLocation, ChessPiece newPiece) { 
@@ -188,25 +200,61 @@ public class Chessboard implements Iterable<ChessPiece[]> {
        
     }
     
-    public ChessPiece getPlayerKing(Player player) {
+    public void getPlayerPiecesExceptForKing() {
         
-        ChessPiece king = null;
+        whitePlayerPieces.clear();
+        blackPlayerPieces.clear();
         
+        ChessPiece temp = null;
         
-        if (player == BLACK) {
-            for (ChessPiece temp : blackPlayerPieces) {
-                if (temp.getPieceType().getSymbol().equals("K")) {
-                    return temp;
-                }
-            }
-        } else if (player == WHITE) {
-            for (ChessPiece temp : whitePlayerPieces) {
-                if (temp.getPieceType() == KING) {
-                    return temp;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (this.getPiece(new Coordinates(i, j)) != null) {
+                    temp = this.getPiece(new Coordinates(i, j));
+                    if (temp.getPieceType() != KING) {
+                        if (temp.getPlayer() == Player.BLACK){
+                            blackPlayerPieces.add(temp);
+                        } else if (temp.getPlayer() == Player.WHITE) {
+                            whitePlayerPieces.add(temp);
+                        }
+                    }
                 }
             }
         }
-        return king;
+    }
+    
+    public void checkGameState(Player player) {
+        
+        King king = (King) getPlayerKing(player);
+        System.out.println("Checking status");
+        if (king.isCheck(this)) {
+            if (king.isCheckMate(this)) {
+                System.out.println(player.getSymbol()+"'s king is in checkmate!");
+            }
+            else {
+                System.out.println(player.getSymbol()+"'s king is in check!!");
+            }
+        }
+    }
+    
+    public ChessPiece getPlayerKing(Player player) {
+        
+        ChessPiece temp = null;
+        
+        
+        
+        for (int i = 0; i<8; i++) {
+            for (int j = 0; j<8; j++)
+                if (this.getPiece(new Coordinates(i, j)) != null) {
+                    temp = this.getPiece(new Coordinates(i, j));
+                    if (temp.getPlayer() == player && temp.getSymbol().equals("K")){
+                        return temp;
+                        //blackPlayerPieces.add(temp);
+                    }
+                }
+        }
+
+        return temp;
     }
     
     public void getPlayerPiecesSize() {

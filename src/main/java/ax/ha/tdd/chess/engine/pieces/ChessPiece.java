@@ -85,6 +85,7 @@ public abstract class ChessPiece {
 
             for (int i = start; i < end; i++) {
                 if (chessboard.getPiece(new Coordinates(i, startY)) != null) {
+                    //System.out.println("stop at X: "+i);
                     return false;
                 } 
             }
@@ -105,6 +106,7 @@ public abstract class ChessPiece {
             }
             for (int i = start; i < end; i++) {
                 if (chessboard.getPiece(new Coordinates(startX, i)) != null) {
+                    //System.out.println("stop at Y: "+i);
                     return false;
                 }
             }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class ChessboardTest {
 
-    @Test
+    /*@Test
     public void Chessboard_fromBeginning_isEmpty() {
         final Chessboard chessboard = new Chessboard();
         for (int x = 0; x < 8; x++) {
@@ -18,7 +18,7 @@ public class ChessboardTest {
         }
     }
 
-    /*@Test
+    @Test
     public void fullboard_whitePieces_isInCorrectSpot() {
         final Chessboard chessboard = Chessboard.startingBoard();
         for (int x = 0; x < 8; x++) {
@@ -544,7 +544,8 @@ public class ChessboardTest {
         
     }
     
-    @Test public void deletePiece() {
+    @Test 
+    public void deletePiece() {
         Chessboard chessboard = new Chessboard();
         
         chessboard.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
@@ -555,4 +556,82 @@ public class ChessboardTest {
         Assertions.assertEquals(null, chessboard.getPiece(new Coordinates(4, 0)));
     }
 
+    @Test
+    public void testCheck() {
+        Game newGame = new Game();
+        
+        // Should only result in check because the king can go to the queens position
+        
+        System.out.println("Check control for black king");
+        newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        newGame.board.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(7, 2)));
+        newGame.board.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(7, 3)));
+
+        newGame.board.getPlayerPieces();
+        newGame.board.updateAccessibleFields();
+        newGame.board.checkGameState(Player.BLACK);
+        
+        System.out.println("Check control for white king");
+        newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        newGame.board.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(3, 6)));
+        newGame.board.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        
+        newGame.board.getPlayerPieces();
+        newGame.board.updateAccessibleFields();
+        newGame.board.checkGameState(Player.WHITE);
+    }
+
+    @Test
+    public void testCheckMate() {
+        Game newGame = new Game();
+        
+        System.out.println("Checkmate control for black king");
+        newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 1)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(1, 0)));
+        
+        newGame.board.getPlayerPieces();
+        newGame.board.updateAccessibleFields();
+        newGame.board.checkGameState(Player.BLACK);
+
+        System.out.println("Checkmate control for white king");
+        newGame.board.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(1, 6)));
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(0, 7)));
+        
+        newGame.board.getPlayerPieces();
+        newGame.board.updateAccessibleFields();
+        newGame.board.checkGameState(Player.WHITE);
+    }
+    
+    @Test
+    public void testCheckMateWithAlliedPieces() {
+        Game newGame = new Game();
+        
+        System.out.println("Checkmate control for black king 2");
+        newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
+        newGame.board.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(3, 1)));
+        newGame.board.addPiece(new Pawn(PieceType.PAWN, Player.BLACK, new Coordinates(5, 1)));
+        newGame.board.addPiece(new Queen(PieceType.QUEEN, Player.BLACK, new Coordinates(3, 0)));
+        newGame.board.addPiece(new Bishop(PieceType.BISHOP, Player.BLACK, new Coordinates(5, 0)));
+        
+        newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(4, 3)));
+        
+        newGame.board.getPlayerPieces();
+        newGame.board.updateAccessibleFields();
+        newGame.board.checkGameState(Player.BLACK);
+
+        System.out.println("Checkmate control for white king 2");
+        newGame.board.addPiece(new King(PieceType.KING, Player.WHITE, new Coordinates(4, 7)));
+        newGame.board.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(3, 6)));
+        newGame.board.addPiece(new Pawn(PieceType.PAWN, Player.WHITE, new Coordinates(4, 6)));
+        newGame.board.addPiece(new Queen(PieceType.QUEEN, Player.WHITE, new Coordinates(3, 7)));
+        newGame.board.addPiece(new Bishop(PieceType.BISHOP, Player.WHITE, new Coordinates(5, 7)));
+        
+        newGame.board.addPiece(new Knight(PieceType.KNIGHT, Player.BLACK, new Coordinates(3, 5)));
+        
+        newGame.board.getPlayerPieces();
+        newGame.board.updateAccessibleFields();
+        newGame.board.checkGameState(Player.WHITE);
+    }
 }

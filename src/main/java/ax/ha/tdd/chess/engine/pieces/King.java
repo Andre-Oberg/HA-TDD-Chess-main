@@ -54,6 +54,74 @@ public class King extends ChessPiece {
         return moveCheck;
     }
     
+    public List<Coordinates> getAvailableMoves(Chessboard board) {
+        
+        List<Coordinates> availableMoves = new ArrayList<>();
+        
+        
+        availableMoves.add(this.getLocation());
+        
+        for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        if (this.canMove(board, new Coordinates(i, j)) == true) {
+                            availableMoves.add(new Coordinates(i, j));
+                        }
+                    }
+                }
+        
+        return availableMoves;
+    }
+    
+    public Boolean isCheck(Chessboard board) {
+        
+        List<Coordinates> attackedSquare = board.getAccessibleFields(this.player);
+        Coordinates location = board.getPlayerKing(this.player).getLocation();
+        
+        return attackedSquare.contains(location);
+        
+    }
+    
+    public Boolean isCheckMate(Chessboard board) {
+        
+        int x = this.getLocation().getX();
+        int y = this.getLocation().getY();
+              
+        this.setLocation(null);
+        
+        //this.setLocation(null);
+        Coordinates temp = new Coordinates(x,y);
+
+        board.deletePiece(temp);
+        
+        //System.out.println("In isCheckMate");
+        board.getPlayerPiecesExceptForKing();
+
+        board.updateAccessibleFields();
+
+        List<Coordinates> attackedSquare = board.getAccessibleFields(this.player);
+
+        this.setLocation(new Coordinates(x, y));
+
+        board.setKing(this);
+
+        List<Coordinates> kingAvailableMoves = new ArrayList<>();
+        //System.out.println("Attacked squares 2 "+attackedSquare.size());
+        kingAvailableMoves = getAvailableMoves(board);
+       // println("Ibn ")
+        //System.out.println("In isCheckMate");
+        //for (int i=0; i<)
+        
+        //System.out.println("Attacked squares 2 "+attackedSquare.size());
+        for (int i=0; i<kingAvailableMoves.size(); i++) {
+            if (attackedSquare.contains(kingAvailableMoves.get(i)) == false) {
+                System.out.println("Open space is: "+kingAvailableMoves.get(i).getX()+" "+kingAvailableMoves.get(i).getY());
+                return false;
+            }
+        }
+        //System.out.println("No Moves Available");
+        return true;
+    }
+    
     public boolean validateSpaces(Chessboard chessboard, Coordinates destination) {
         int xStart = 0;
         int xEnd = 0; 
