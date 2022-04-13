@@ -478,8 +478,8 @@ public class ChessboardTest {
     // Kommer klaga att på att den assertar fel detta händer pga bordet fylls med pjäser vilket leder till att man inte kan castla
     @Test
     public void kingValidCastling() {
-        
-        Game newGame = new Game();
+        Chessboard chessboard = new Chessboard();
+        Game newGame = new Game(chessboard);
         
         
         newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
@@ -504,7 +504,8 @@ public class ChessboardTest {
     
     @Test
     public void kingInValidCastling() {
-        Game newGame = new Game();
+        Chessboard chessboard = new Chessboard();
+        Game newGame = new Game(chessboard);
         
         newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
         newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(1, 1)));
@@ -561,7 +562,8 @@ public class ChessboardTest {
 
     @Test
     public void testCheck() {
-        Game newGame = new Game();
+        Chessboard chessboard = new Chessboard();
+        Game newGame = new Game(chessboard);
         
         // Should only result in check because the king can go to the queens position
         
@@ -586,7 +588,8 @@ public class ChessboardTest {
 
     @Test
     public void testCheckMate() {
-        Game newGame = new Game();
+        Chessboard chessboard = new Chessboard();
+        Game newGame = new Game(chessboard);
         
         System.out.println("Checkmate control for black king");
         newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));
@@ -609,7 +612,8 @@ public class ChessboardTest {
     
     @Test
     public void testCheckMateWithAlliedPieces() {
-        Game newGame = new Game();
+        Chessboard chessboard = new Chessboard();
+        Game newGame = new Game(chessboard);
         
         System.out.println("Checkmate control for black king 2");
         newGame.board.addPiece(new King(PieceType.KING, Player.BLACK, new Coordinates(4, 0)));

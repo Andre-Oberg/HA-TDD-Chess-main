@@ -17,6 +17,15 @@ public class Game {
     
     String lastMove = null;
     
+    public Game() {
+        Chessboard newChess = new Chessboard();
+        this.board = newChess.startingBoard();
+    }
+    
+    public Game(Chessboard emptyBoard) {
+        this.board = emptyBoard;
+    }
+    
     public Player getPlayerToMove() {
         //TODO this should reflect the current state.
         //return Player.WHITE;
