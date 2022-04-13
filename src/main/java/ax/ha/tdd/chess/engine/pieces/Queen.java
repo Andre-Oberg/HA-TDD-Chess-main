@@ -26,6 +26,7 @@ public class Queen extends ChessPiece {
 
     public boolean getMoves(Chessboard chessboard, Coordinates destination) {
         if (checkIfDestinationAvaiable(chessboard, destination)) {
+            System.out.println("Can move before second if");
             if (moveStraight(chessboard, destination) || moveDiagonally(chessboard, destination)) {
                 return true;
             }
@@ -35,6 +36,7 @@ public class Queen extends ChessPiece {
     
     @Override
     public boolean canMove(Chessboard chessboard, Coordinates destination) {
+        System.out.println("Queen Selected");
         return getMoves(chessboard, destination);
     }
     

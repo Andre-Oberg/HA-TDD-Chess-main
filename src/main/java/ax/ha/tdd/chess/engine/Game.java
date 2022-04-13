@@ -15,38 +15,60 @@ public class Game {
     
     Player currentPlayer = BLACK;
     
+    String lastMove = null;
+    
     public Player getPlayerToMove() {
         //TODO this should reflect the current state.
         //return Player.WHITE;
-        if (currentPlayer == WHITE) {
+        /*if (currentPlayer == WHITE) {
             currentPlayer = BLACK;
         } else {
             currentPlayer = BLACK;
+        }*/
+        
+        return this.currentPlayer;
+        
+    }
+    
+    public void updateCurrentPlayer() {
+        if (this.currentPlayer == WHITE) {
+            this.currentPlayer = BLACK;
+        } else {
+            this.currentPlayer = WHITE;
         }
-        
-        return currentPlayer;
-        
     }
 
     public Chessboard getBoard() {
         return board;
     }
+    
+    public void setLastMove(String message) {
+        this.lastMove = message;
+    }
 
-    public String getLastMoveResult(String message) {
+    public String getLastMoveResult() {
         //TODO this should be used to show the player what happened
         //Illegal move, correct move, e2 moved to e4 etc.
         if (isNewGame) {
            return "Game hasn't begun";
         }
-        return message;
+        return this.lastMove;
     }
 
     public void move(String move) {
         //TODO this should trigger your move logic.
-        isNewGame = false;
+        if (isNewGame == true) {
+        
+            updateCurrentPlayer();
+            isNewGame = false;
+        }
+        //isNewGame = false;
+        System.out.println("Current player: "+getPlayerToMove());
         
         board.getPlayerPieces();
         board.updateAccessibleFields();
+        
+        board.checkGameState(getPlayerToMove());
         
         ChessPiece currentPiece = null;
         Coordinates oldLocation = null;
@@ -58,7 +80,8 @@ public class Game {
         String[] values;
 
         if (move.isEmpty()) {
-            getLastMoveResult("You must type something");
+            setLastMove("You must type something");
+            getLastMoveResult();
         } else {
             values = move.split(seperator);
             
@@ -66,26 +89,44 @@ public class Game {
                 if (validInput(values[i])) {
                     numbers[i] = Integer.parseInt(values[i]);
                 } else {
-                    getLastMoveResult("Invalid input");
+                    setLastMove("Invalid input");
+                    getLastMoveResult();
                     break;
                 }
             }
             
-            currentPiece = board.getPiece(new Coordinates(numbers[0], numbers[1]));
-            oldLocation = new Coordinates(numbers[0], numbers[1]);
-            newLocation = new Coordinates(numbers[2], numbers[3]); 
+            if (board.getPiece(new Coordinates(numbers[0], numbers[1])) != null) {
+                if ( board.getPiece(new Coordinates(numbers[0], numbers[1])).getPlayer() != getPlayerToMove()) {
+                    setLastMove("You can't move one of your opponents chesspieces please select one of your own");
+                    getLastMoveResult();
+                    System.out.println("You can't move one of your opponents chesspieces please select one of your own");
+                } else {
+                    currentPiece = board.getPiece(new Coordinates(numbers[0], numbers[1]));
+                    oldLocation = new Coordinates(numbers[0], numbers[1]);
+                    newLocation = new Coordinates(numbers[2], numbers[3]); 
+                }
+            }
         }
         
-        if (currentPiece.canMove(board, new Coordinates(numbers[2], numbers[3]))) {
-            
+        if (currentPiece != null) {
+            if (currentPiece.canMove(board, new Coordinates(numbers[2], numbers[3]))) {
             currentPiece.setMoved();
             board.movePiece(newLocation, oldLocation, currentPiece);
-            getLastMoveResult("Moved: "+oldLocation.getX()+","+oldLocation.getY()+" to: "+newLocation.getX()+","+newLocation.getY());
+            setLastMove("Moved: "+oldLocation.getX()+","+oldLocation.getY()+" to: "+newLocation.getX()+","+newLocation.getY());
+            getLastMoveResult();
+            updateCurrentPlayer();
+            
             //System.out.println("Moved piece");
             
+            } else {
+                setLastMove("Invalid movement cant move: "+oldLocation.getX()+","+oldLocation.getY()+" to: "+newLocation.getX()+","+newLocation.getY());
+                getLastMoveResult();
+            }
         } else {
-            getLastMoveResult("Invalid movement cant move: "+oldLocation.getX()+","+oldLocation.getY()+" to: "+newLocation.getX()+","+newLocation.getY());
+            setLastMove("No piece selected");
+            getLastMoveResult();
         }
+        
         
     
        

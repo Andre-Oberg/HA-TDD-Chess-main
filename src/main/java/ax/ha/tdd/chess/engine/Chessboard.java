@@ -224,7 +224,7 @@ public class Chessboard implements Iterable<ChessPiece[]> {
     }
     
     public void checkGameState(Player player) {
-        
+        System.out.println("Checking status");
         King king = (King) getPlayerKing(player);
         System.out.println("Checking status");
         if (king.isCheck(this)) {
@@ -247,8 +247,11 @@ public class Chessboard implements Iterable<ChessPiece[]> {
             for (int j = 0; j<8; j++)
                 if (this.getPiece(new Coordinates(i, j)) != null) {
                     temp = this.getPiece(new Coordinates(i, j));
-                    if (temp.getPlayer() == player && temp.getSymbol().equals("K")){
-                        return temp;
+                    if (temp.getPlayer() == player) {
+                        System.out.println("Looking for king");
+                        if (temp.getPieceType() == KING){
+                            return temp;
+                        }
                         //blackPlayerPieces.add(temp);
                     }
                 }

@@ -51,6 +51,9 @@ public class King extends ChessPiece {
         } else if (canCastle(chessboard, destination)) {
             moveCheck = true;
         }
+        
+        
+        
         return moveCheck;
     }
     
@@ -140,7 +143,6 @@ public class King extends ChessPiece {
         
         checkList.add(destination);
         checkList.add(this.getLocation());
-        
         for (int i = xStart+1; i <= xEnd-1; i++) {
             location = new Coordinates(i, this.getLocation().getY());
             if (chessboard.getPiece(location) != null) {
@@ -159,10 +161,12 @@ public class King extends ChessPiece {
     }
     
     public boolean canCastle(Chessboard chessboard, Coordinates destination) {
-        
+        //System.out.println("Trying to castle");
         if (getMoved() == false) {
+            //System.out.println("Hasn't moved");
             if (chessboard.getPiece(destination) != null) {
                 ChessPiece check = chessboard.getPiece(destination);
+                //System.out.println("Is piece");
                 if (check.getPieceType() == ROOK && check.getMoved() == false) {
                     return validateSpaces(chessboard, destination);
                 }

@@ -130,7 +130,7 @@ public abstract class ChessPiece {
 
         if  (xTot == yTot) {
             
-            if (destination.getX() < this.getLocation().getX()) {
+            /*if (destination.getX() < this.getLocation().getX()) {
                 xStart = destination.getX(); 
                 xEnd = this.getLocation().getX();
             } else if (destination.getX() > this.getLocation().getX()) {
@@ -138,27 +138,39 @@ public abstract class ChessPiece {
                 xEnd = destination.getX();
             } else {
                 return false;
-            }
+            }*/
             
-            if (destination.getY() < this.getLocation().getY()) {
-                yStart = this.getLocation().getY(); 
-                //yEnd = this.getLocation().getY();
-            } else if (destination.getY() > this.getLocation().getY()) {
-                yStart = destination.getY();
-                //yEnd = destination.getY();
+            if (destination.getX() > this.getLocation().getX()) {
+                xStart = destination.getX(); 
+                xEnd = this.getLocation().getX();
+            } else if (destination.getX() < this.getLocation().getX()) {
+                xStart = this.getLocation().getX();
+                xEnd = destination.getX();
             } else {
                 return false;
             }
+
+            if (destination.getY() > this.getLocation().getY()) {
+                yStart = this.getLocation().getY(); 
+                //yEnd = this.getLocation().getY();
+            } else if (destination.getY() < this.getLocation().getY()) {
+                yStart = destination.getY();
+                //yEnd = destination.getY();
+            } else {
+
+                return false;
+            }
+
+            yStart += 1;
+            xStart -= 1;
             
-            yStart -= 1;
-            xStart += 1;
             
-            for (; xStart < xEnd; xStart++, yStart--) {
+            for (; xStart > xEnd; xStart--, yStart++) {
                 if (chessboard.getPiece(new Coordinates(xStart, yStart)) != null) {
                     return false;
                 }
             }
-            
+                
             return true;
             
         }

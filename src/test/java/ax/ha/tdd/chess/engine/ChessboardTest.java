@@ -474,6 +474,7 @@ public class ChessboardTest {
         
     }
     
+    // Hjälper om man kommer ihåg att man satt in en kontroller för spelare efter att man gjort ett test så¨slipper man felsöka lätta fel
     @Test
     public void kingValidCastling() {
         
@@ -486,17 +487,18 @@ public class ChessboardTest {
         newGame.board.addPiece(new Rook(PieceType.ROOK, Player.BLACK, new Coordinates(7, 0)));
         newGame.board.addPiece(new Rook(PieceType.ROOK, Player.WHITE, new Coordinates(0, 7)));
         
-        
-        newGame.move("4,0 7,0");
-        
-        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(7, 0)).getSymbol());
-        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(4, 0)).getSymbol());
-        
         // Vid detta fall så bör vit inte kunna göra castling då svartas torn står mitemot den vita kungen
         newGame.move("4,7 0,7");
 
-        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(4, 7)).getSymbol());
-        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(0, 7)).getSymbol());
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(4, 7)).getSymbol());
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(0, 7)).getSymbol());
+        
+        
+        newGame.move("4,0 7,0");
+        
+        Assertions.assertEquals("R", newGame.board.getPiece(new Coordinates(7, 0)).getSymbol());
+        Assertions.assertEquals("K", newGame.board.getPiece(new Coordinates(4, 0)).getSymbol());
+        
     }
     
     @Test
@@ -634,4 +636,5 @@ public class ChessboardTest {
         newGame.board.updateAccessibleFields();
         newGame.board.checkGameState(Player.WHITE);
     }
+    
 }
