@@ -475,6 +475,7 @@ public class ChessboardTest {
     }
     
     // Hjälper om man kommer ihåg att man satt in en kontroller för spelare efter att man gjort ett test så¨slipper man felsöka lätta fel
+    // Kommer klaga att på att den assertar fel detta händer pga bordet fylls med pjäser vilket leder till att man inte kan castla
     @Test
     public void kingValidCastling() {
         
