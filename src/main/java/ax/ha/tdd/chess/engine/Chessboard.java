@@ -40,7 +40,7 @@ public class Chessboard implements Iterable<ChessPiece[]> {
                 .withMirroredPiece(PieceType.QUEEN, List.of(3), 0)
                 .withMirroredPiece(PieceType.KING, List.of(4), 0);*/
         
-        //chessboard.withMirroredPiece();
+        chessboard.withMirroredPiece();
         
         return chessboard;
     }
