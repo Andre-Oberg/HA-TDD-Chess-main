@@ -560,7 +560,7 @@ public class ChessboardTest {
         Assertions.assertEquals(null, chessboard.getPiece(new Coordinates(4, 0)));
     }
 
-    @Test
+    /*@Test
     public void testCheck() {
         Chessboard chessboard = new Chessboard();
         Game newGame = new Game(chessboard);
@@ -640,6 +640,6 @@ public class ChessboardTest {
         newGame.board.getPlayerPieces();
         newGame.board.updateAccessibleFields();
         newGame.board.checkGameState(Player.WHITE);
-    }
+    }*/
     
 }
